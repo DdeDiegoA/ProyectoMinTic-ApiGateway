@@ -1,6 +1,8 @@
 import datetime
 from email import message
-from urllib import request
+import json
+from urllib import request, response
+from wsgiref import headers
 from dotenv import dotenv_values
 from flask_jwt_extended import create_access_token
 import requests
@@ -25,7 +27,9 @@ class AuthController():
             expires = datetime.timedelta(seconds=exp_time)
             access_token = create_access_token(identity=user['id'],
                                                expires_delta=expires,
-                                               additional_claims={'role': user['role']['name']
+                                               additional_claims={
+                                                   'seudonimo':user['seudonimo'],
+                                                   'role': user['role']['name']
                                                                   })
             return {
                 "id": user['id'],
@@ -34,3 +38,13 @@ class AuthController():
         return {
             "message": "credenciales invalidas",
         }, 401
+
+
+    def me(self, id):
+        headers = {
+         "Content-Type": "application/json"
+        }
+        response = requests.get(url=f"{config['URL_AUTH']}/api/users/{id}", headers=headers)
+        if response.status_code == 200:
+            return response.json(), 200
+        return response.json()
