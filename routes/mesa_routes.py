@@ -11,10 +11,32 @@ controller= MesaController()
 @role("Admin")
 def create():
     response, code = controller.create_mesa(request.get_json())
-    return jsonify(response), code
-
-@mesa_module.get('/me')
+    return jsonify(response),code
+      
+@mesa_module.get('/')
 @token
-def me():
-    response, code = controller.me(request.args['user_id'])
-    return jsonify(response),code       
+@role("Admin")
+def get_mesas():
+    response,code= controller.get_mesas(request.args)
+    return jsonify(response),code
+
+@mesa_module.get('/<string:id>')
+@token
+@role("Admin")
+def get_mesa_id(id):
+    response,code = controller.get_mesa_id(request.args,id)
+    return jsonify(response),code
+
+@mesa_module.put('/<string:id>')
+@token
+@role("Admin")
+def upd_mesa(id):
+    response,code = controller.upd_mesa(id,request.get_json())
+    return jsonify(response),code
+
+@mesa_module.delete('/<string:id>')
+@token
+@role("Admin")
+def delete_mesa(id):
+    response,code = controller.delete_mesa(id,request.args)
+    return jsonify(response),code

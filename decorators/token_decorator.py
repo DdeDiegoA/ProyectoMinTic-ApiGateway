@@ -1,8 +1,10 @@
 from functools import wraps
+from importlib.resources import contents
 from flask import request,jsonify
 from flask_jwt_extended import decode_token
 from dotenv import dotenv_values
 from werkzeug.datastructures import ImmutableMultiDict
+import traceback
 import requests
 
 config = dotenv_values('.env')
@@ -38,18 +40,18 @@ def role(role):
           method = request.method.lower()
           url = request.path
           for p in permission:
-            if p['method'].lower() == method or url == p['url']:
+            if p['method'].lower() == method and p['url'] in url:
               flag = True
               break
           if flag:
-            result = f(*args, *kwargs)
+            result = f(*args, **kwargs)
             return result
           return jsonify({
-          "message": "No tiene permisos1"
+          "message": "No tiene permisos 1"
           }), 403
       except:
         return jsonify({
-          "message": "No tiene permisos2"
+          "message": "No tiene permisos 2"
         }), 403
     return decorated
   return inner_decorator
