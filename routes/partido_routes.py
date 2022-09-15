@@ -8,35 +8,35 @@ controller= PartidoController()
 
 @partido_module.post('/create')
 @token
-@role("Admin")
+@role()
 def create():
     response, code = controller.create_partido(request.get_json())
     return jsonify(response),code
       
 @partido_module.get('/')
 @token
-@role("Admin")
+@role()
 def get_partido():
     response,code= controller.get_partido(request.args)
     return jsonify(response),code
 
 @partido_module.get('/<string:id>')
 @token
-@role("Admin")
+@role()
 def get_partido_id(id):
     response,code = controller.get_partido_id(request.args,id)
     return jsonify(response),code
 
 @partido_module.put('/<string:id>')
 @token
-@role("Admin")
+@role()
 def upd_partido(id):
     response,code = controller.upd_partido(id,request.get_json())
     return jsonify(response),code
 
 @partido_module.delete('/<string:id>')
 @token
-@role("Admin")
+@role()
 def delete_partido(id):
     response,code = controller.delete_partido(id,request.args)
     return jsonify(response),code
