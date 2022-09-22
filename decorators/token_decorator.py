@@ -9,8 +9,16 @@ import requests
 
 config = dotenv_values('.env')
 def token(f):
-    @wraps(f)
-    def decorated(*args,**kwargs):
+  """
+  It takes a function as an argument, and returns a function that takes the same arguments as the
+  original function, and returns the same thing as the original function, but only after doing some
+  stuff first
+  
+  :param f: The function that is being decorated
+  :return: The function decorated is being returned.
+  """
+  @wraps(f)
+  def decorated(*args,**kwargs):
         token= request.headers.get('Authorization','no hay token')
         parts= token.split()
         if parts[0] != 'Bearer':
@@ -23,9 +31,23 @@ def token(f):
         http_args['role']= decoded['role']
         request.args= ImmutableMultiDict(http_args)
         return f(*args,**kwargs)
-    return decorated
+  return decorated
 
 def role():
+  """
+  It takes a function as an argument, and returns a function that takes a function as an argument, and
+  returns a function that takes a function as an argument, and returns a function that takes a
+  function as an argument, and returns a function that takes a function as an argument, and returns a
+  function that takes a function as an argument, and returns a function that takes a function as an
+  argument, and returns a function that takes a function as an argument, and returns a function that
+  takes a function as an argument, and returns a function that takes a function as an argument, and
+  returns a function that takes a function as an argument, and returns a function that takes a
+  function as an argument, and returns a function that takes a function as an argument, and returns a
+  function that takes a function as an argument, and returns a function that takes a function as an
+  argument, and returns a function that takes a function as an argument, and returns a function that
+  takes a function as an
+  :return: A function that returns a function that returns a function.
+  """
   def inner_decorator(f):
     @wraps(f)
     def decorated(*args, **kwargs):

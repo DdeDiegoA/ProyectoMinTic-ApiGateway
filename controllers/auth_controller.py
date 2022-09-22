@@ -16,6 +16,14 @@ class AuthController():
         pass
 
     def login(self, data):
+        """
+        It receives a json with the user's credentials, it sends a request to the authentication service,
+        if the response is 200, it creates a token with the user's id, the expiration time and the user's
+        role, and returns the token and the user's id
+        
+        :param data: {
+        :return: A dictionary with the id and access_token
+        """
         exp_time = int(config['JWT_EXPIRATION'])
         headers = {
             "Content-Type": "application/json"
@@ -41,6 +49,11 @@ class AuthController():
 
 
     def me(self, id):
+        """
+        It takes in an id, makes a request to the auth service, and returns the response
+        
+        :param id: the id of the user
+        """
         headers = {
          "Content-Type": "application/json"
         }
